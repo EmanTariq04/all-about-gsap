@@ -6,209 +6,113 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { ReactLenis } from "lenis/react";
 
+import "./style.css";
+import Lenis from "@studio-freight/lenis";
+
 gsap.registerPlugin(ScrollTrigger);
 
-export default function Home() {
-  const lenisRef = useRef(null);
-  const containerRef = useRef(null);
+// ─── 1. LENIS SMOOTH SCROLL ───────────────────────────────────────────────
+const lenis = new Lenis({
+  duration: 1.4,
+  easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+  smooth: true,
+});
 
-  useEffect(() => {
-    function update(time) {
-      lenisRef.current?.lenis?.raf(time * 1000);
-    }
+// Connect Lenis → GSAP ScrollTrigger (critical!)
+lenis.on("scroll", ScrollTrigger.update);
 
-    lenisRef.current?.lenis?.on("scroll", ScrollTrigger.update);
-    gsap.ticker.add(update);
-    gsap.ticker.lagSmoothing(0);
+gsap.ticker.add((time) => {
+  lenis.raf(time * 1000);
+});
+gsap.ticker.lagSmoothing(0);
 
-    return () => gsap.ticker.remove(update);
-  }, []);
+// ─── 2. GRAB ELEMENTS ────────────────────────────────────────────────────
+const logoRef = useRef(null);
+const lenisRef = useRef(null);
+const videoWrap = document.querySelector(".video-container");
+const heroSection = document.querySelector(".hero");
+const first = document.querySelector(".first");
+const mid = document.querySelector(".mid");
+const last = document.querySelector(".last");
 
-useGSAP(
-  () => {
-    const sections = gsap.utils.toArray("section");
-
-    sections.forEach((section, index) => {
-      const container = section.querySelector(".container");
-
-      gsap.set(container, { rotation: 45 });
-
-      gsap.to(container, {
-        rotation: 0,
-        ease: "none",
-        scrollTrigger: {
-          trigger: section,
-          start: "top bottom",
-          end: "top 20%",
-          scrub: true,
-        },
-      });
-
-      if (index === sections.length - 1) return;
-
-      ScrollTrigger.create({
-        trigger: section,
-        start: "bottom bottom",
-        end: "bottom top",
-        pin: true,
-        pinSpacing: false,
-      });
-    });
+// ─── 3. PHASE 1 — Video scales down + Logo rises to nav ──────────────────
+// This ScrollTrigger watches the hero section
+useGSAP(() => { 
+  const tl1 = gsap.timeline({
+  scrollTrigger: {
+    trigger: heroSection,
+    start: "top top",
+    end: "+=80%", // scroll 80% of viewport height to complete phase 1
+    scrub: 1.2, // smooth scrubbing
+    pin: true, // pins the hero
   },
-  { scope: containerRef }
-);
+});
+ })
+
+tl1
+  // Video shrinks from fullscreen → small centered box
+  .to(
+    videoWrap,
+    {
+      scale: 0.15,
+      borderRadius: "4px",
+      width: "70vh",
+      height: "40vh",
+      ease: "none",
+      marginTop: "33vh",
+    },
+    0,
+  )
+  // Logo floats up from center to top-nav position
+  .to(
+    logoRef.current,
+    {
+      y: 0, // back to natural position (which is inside fixed header)
+      scale: 0.25,
+      ease: "none",
+    },
+    0,
+  )
+  .to(
+    [".first", ".mid", ".last"],
+    {
+      opacity: 1,
+      y: 0,
+      stagger: 0.05,
+      ease: "none",
+    },
+    0.2,
+  );
+
+
 
 
   return (
     <>
       <ReactLenis root options={{ autoRef: false }} ref={lenisRef} />
-      <main ref={containerRef}>
-        <section className="one">
-          <div className="container">
-            <div className="col">
-              <div className="img">
-                <img
-                  src="https://i.pinimg.com/736x/bd/57/1b/bd571bd803d14611dca389ab96d682a7.jpg"
-                  alt="img"
-                />
-              </div>
-            </div>
-            <div className="col">
-              <h1>Gesture</h1>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Est
-                expedita architecto laborum rem. Repellat, ullam omnis hic neque
-                est quam dolorum ea laboriosam veniam aperiam dolor magnam.
-                Temporibus quo nobis nostrum sed unde, incidunt necessitatibus
-                reiciendis earum iusto, molestiae pariatur ad ipsam voluptate
-                saepe obcaecati sequi doloribus ut dolores. Accusamus?
-              </p>
-            </div>
-          </div>
-        </section>
+      <main>
+       <header class="logo-wrap">
+      <div class="logo" ref={logoRef}>
+        heyyy
+      </div>
+    </header>
 
-        <section className="two">
-          <div className="container">
-            <div className="col">
-              <div className="img">
-                <img
-                  src="https://i.pinimg.com/736x/bd/57/1b/bd571bd803d14611dca389ab96d682a7.jpg"
-                  alt="img"
-                />
-              </div>
-            </div>
-            <div className="col">
-              <h1>Gesture</h1>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Est
-                expedita architecto laborum rem. Repellat, ullam omnis hic neque
-                est quam dolorum ea laboriosam veniam aperiam dolor magnam.
-                Temporibus quo nobis nostrum sed unde, incidunt necessitatibus
-                reiciendis earum iusto, molestiae pariatur ad ipsam voluptate
-                saepe obcaecati sequi doloribus ut dolores. Accusamus?
-              </p>
-            </div>
-          </div>
-        </section>
+      <section class="hero">
+      <span class="first">ANOTHER</span>
+      <span class="mid">WEBSITE</span>
 
-        <section className="three">
-          <div className="container">
-            <div className="col">
-              <div className="img">
-                <img
-                  src="https://i.pinimg.com/736x/bd/57/1b/bd571bd803d14611dca389ab96d682a7.jpg"
-                  alt="img"
-                />
-              </div>
-            </div>
-            <div className="col">
-              <h1>Gesture</h1>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Est
-                expedita architecto laborum rem. Repellat, ullam omnis hic neque
-                est quam dolorum ea laboriosam veniam aperiam dolor magnam.
-                Temporibus quo nobis nostrum sed unde, incidunt necessitatibus
-                reiciendis earum iusto, molestiae pariatur ad ipsam voluptate
-                saepe obcaecati sequi doloribus ut dolores. Accusamus?
-              </p>
-            </div>
-          </div>
-        </section>
+      <div class="video-container">
+        <video autoplay loop muted playsinline>
+          <source src="/testttt.mp4" type="video/mp4" />
+        </video>
+      </div>
 
-        <section className="four">
-          <div className="container">
-            <div className="col">
-              <div className="img">
-                <img
-                  src="https://i.pinimg.com/736x/bd/57/1b/bd571bd803d14611dca389ab96d682a7.jpg"
-                  alt="img"
-                />
-              </div>
-            </div>
-            <div className="col">
-              <h1>Gesture</h1>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Est
-                expedita architecto laborum rem. Repellat, ullam omnis hic neque
-                est quam dolorum ea laboriosam veniam aperiam dolor magnam.
-                Temporibus quo nobis nostrum sed unde, incidunt necessitatibus
-                reiciendis earum iusto, molestiae pariatur ad ipsam voluptate
-                saepe obcaecati sequi doloribus ut dolores. Accusamus?
-              </p>
-            </div>
-          </div>
-        </section>
+      <span class="last">EXPERIENCE</span>
+    </section>
 
-        <section className="five">
-          <div className="container">
-            <div className="col">
-              <div className="img">
-                <img
-                  src="https://i.pinimg.com/736x/bd/57/1b/bd571bd803d14611dca389ab96d682a7.jpg"
-                  alt="img"
-                />
-              </div>
-            </div>
-            <div className="col">
-              <h1>Gesture</h1>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Est
-                expedita architecto laborum rem. Repellat, ullam omnis hic neque
-                est quam dolorum ea laboriosam veniam aperiam dolor magnam.
-                Temporibus quo nobis nostrum sed unde, incidunt necessitatibus
-                reiciendis earum iusto, molestiae pariatur ad ipsam voluptate
-                saepe obcaecati sequi doloribus ut dolores. Accusamus?
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <section className="six">
-          <div className="container">
-            <div className="col">
-              <div className="img">
-                <img
-                  src="https://i.pinimg.com/736x/bd/57/1b/bd571bd803d14611dca389ab96d682a7.jpg"
-                  alt="img"
-                />
-              </div>
-            </div>
-            <div className="col">
-              <h1>Gesture</h1>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Est
-                expedita architecto laborum rem. Repellat, ullam omnis hic neque
-                est quam dolorum ea laboriosam veniam aperiam dolor magnam.
-                Temporibus quo nobis nostrum sed unde, incidunt necessitatibus
-                reiciendis earum iusto, molestiae pariatur ad ipsam voluptate
-                saepe obcaecati sequi doloribus ut dolores. Accusamus?
-              </p>
-            </div>
-          </div>
-        </section>
-        <footer>
-          <h1>Footer</h1>
-        </footer>
+    <section class="after-content">
+      <p>content...</p>
+    </section>
       </main>
     </>
   );
