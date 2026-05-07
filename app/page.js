@@ -1,119 +1,67 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import React, { useRef } from "react";
+import { useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
-import { ReactLenis } from "lenis/react";
+import { SplitText } from "gsap/SplitText";
 
-import "./style.css";
-import Lenis from "@studio-freight/lenis";
+gsap.registerPlugin(ScrollTrigger, SplitText);
 
-gsap.registerPlugin(ScrollTrigger);
+const page = () => {
+  let wrapper = useRef(null);
+  let text = useRef(null);
 
-// ─── 1. LENIS SMOOTH SCROLL ───────────────────────────────────────────────
-const lenis = new Lenis({
-  duration: 1.4,
-  easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-  smooth: true,
-});
+  useEffect(() => {
+    let split = SplitText.create(text.current, {
+      type: "chars, words",
+    });
 
-// Connect Lenis → GSAP ScrollTrigger (critical!)
-lenis.on("scroll", ScrollTrigger.update);
-
-gsap.ticker.add((time) => {
-  lenis.raf(time * 1000);
-});
-gsap.ticker.lagSmoothing(0);
-
-// ─── 2. GRAB ELEMENTS ────────────────────────────────────────────────────
-const logoRef = useRef(null);
-const lenisRef = useRef(null);
-const videoWrap = document.querySelector(".video-container");
-const heroSection = document.querySelector(".hero");
-const first = document.querySelector(".first");
-const mid = document.querySelector(".mid");
-const last = document.querySelector(".last");
-
-// ─── 3. PHASE 1 — Video scales down + Logo rises to nav ──────────────────
-// This ScrollTrigger watches the hero section
-useGSAP(() => { 
-  const tl1 = gsap.timeline({
-  scrollTrigger: {
-    trigger: heroSection,
-    start: "top top",
-    end: "+=80%", // scroll 80% of viewport height to complete phase 1
-    scrub: 1.2, // smooth scrubbing
-    pin: true, // pins the hero
-  },
-});
- })
-
-tl1
-  // Video shrinks from fullscreen → small centered box
-  .to(
-    videoWrap,
-    {
-      scale: 0.15,
-      borderRadius: "4px",
-      width: "70vh",
-      height: "40vh",
+    const scrollTween = gsap.to(text.current, {
+      xPercent: -100,
       ease: "none",
-      marginTop: "33vh",
-    },
-    0,
-  )
-  // Logo floats up from center to top-nav position
-  .to(
-    logoRef.current,
-    {
-      y: 0, // back to natural position (which is inside fixed header)
-      scale: 0.25,
-      ease: "none",
-    },
-    0,
-  )
-  .to(
-    [".first", ".mid", ".last"],
-    {
-      opacity: 1,
-      y: 0,
-      stagger: 0.05,
-      ease: "none",
-    },
-    0.2,
-  );
+      scrollTrigger: {
+        trigger: wrapper.current,
+        pin: true,
+        end: "+=5000px",
+        scrub: true,
+      },
+    });
 
-
-
+    split.chars.forEach((char) => {
+      gsap.from(char, {
+        yPercent: "random(-200, 200)",
+        rotation: "random(-20, 20)",
+        ease: "back.out(1.2)",
+        scrollTrigger: {
+          trigger: char,
+          containerAnimation: scrollTween,
+          start: "left 100%",
+          end: "left 30%",
+          scrub: 1,
+        },
+      });
+    });
+  });
 
   return (
-    <>
-      <ReactLenis root options={{ autoRef: false }} ref={lenisRef} />
-      <main>
-       <header class="logo-wrap">
-      <div class="logo" ref={logoRef}>
-        heyyy
+    <section
+      ref={wrapper}
+      className="horizontal overflow-hidden h-screen flex items-center"
+    >
+      <div className="container flex w-max whitespace-nowrap gap-4 pl-[100vw]">
+        <h3
+          ref={text}
+          className="horizontal-text heading-xl text-2xl font-bold leading-1"
+        >
+          ScrollTrigger enables anyone to create jaw-dropping scroll-based
+          animations with minimal code. Infinitely flexible. Scrub, pin, snap,
+          or just trigger anything scroll-related, even if it has nothing to do
+          with animation.
+        </h3>
       </div>
-    </header>
-
-      <section class="hero">
-      <span class="first">ANOTHER</span>
-      <span class="mid">WEBSITE</span>
-
-      <div class="video-container">
-        <video autoplay loop muted playsinline>
-          <source src="/testttt.mp4" type="video/mp4" />
-        </video>
-      </div>
-
-      <span class="last">EXPERIENCE</span>
     </section>
-
-    <section class="after-content">
-      <p>content...</p>
-    </section>
-      </main>
-    </>
   );
-}
+};
+
+export default page;
