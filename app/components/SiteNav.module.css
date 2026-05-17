@@ -1,0 +1,22 @@
+.nav {
+  position: fixed;
+  top: 2rem;
+  right: 35rem;
+  z-index: 100;
+  display: flex;
+  gap: 2rem;
+}
+
+.nav a {
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #000;
+  mix-blend-mode: multiply;
+  transition: opacity 0.2s;
+}
+
+.nav a:hover {
+  opacity: 0.4;
+}
