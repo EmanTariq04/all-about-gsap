@@ -14,10 +14,10 @@ export default function HomePage() {
 
   return (
     <div data-transition="container" data-namespace="home" ref={containerRef}>
-      <main>
+      <main className="bg-blue-900">
         <section className="hero">
           <div className="hero_content">
-            <div className="links_codrops">
+            {/* <div className="links_codrops">
               <a
                 href="https://tympanus.net/codrops/?p=109206"
                 target="_blank"
@@ -32,9 +32,9 @@ export default function HomePage() {
               >
                 MORE DEMOS
               </a>
-            </div>
+            </div> */}
 
-            <div className="lists_c">
+            {/* <div className="lists_c">
               <ul>
                 <li>
                   <div className="lines">
@@ -92,9 +92,9 @@ export default function HomePage() {
                   </div>
                 </li>
               </ul>
-            </div>
+            </div> */}
 
-            <h1 className="home_title">AH.736</h1>
+            <h1 className="home_title text-blue-900">AH.736</h1>
           </div>
         </section>
       </main>

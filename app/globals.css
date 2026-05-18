@@ -23,7 +23,7 @@ body {
 }
 
 main {
-  background-color: #ffffff;
+  /* background-color: #ffffff; */
   width: 100%;
 }
 
@@ -42,7 +42,7 @@ main {
 /* ─── Hero layout ─── */
 .hero {
   min-height: 100vh;
-  background-color: #fff;
+  /* background-color: #fff; */
   display: flex;
   align-items: flex-end;
   padding: 0 0 4rem;

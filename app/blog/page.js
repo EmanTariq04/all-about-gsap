@@ -14,10 +14,10 @@ export default function BlogPage() {
 
   return (
     <div data-transition="container" data-namespace="blog" ref={containerRef}>
-      <main>
+      <main className="bg-amber-200">
         <section className="hero">
           <div className="hero_content">
-            <div className="links_codrops">
+            {/* <div className="links_codrops">
               <a
                 href="https://tympanus.net/codrops/?p=109206"
                 target="_blank"
@@ -32,9 +32,9 @@ export default function BlogPage() {
               >
                 MORE DEMOS
               </a>
-            </div>
+            </div> */}
 
-            <div className="lists_c">
+            {/* <div className="lists_c">
               <ul>
                 <li>
                   <div className="lines">
@@ -92,9 +92,9 @@ export default function BlogPage() {
                   </div>
                 </li>
               </ul>
-            </div>
+            </div> */}
 
-            <h1 className="about_title">WV.663</h1>
+            <h1 className="about_title text-amber-200">WV.663</h1>
           </div>
         </section>
       </main>
