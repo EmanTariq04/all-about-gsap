@@ -1,0 +1,97 @@
+.stamp {
+  --perf-size: 5px;
+  --perf-gap: 15px;
+  --pad: calc(var(--perf-size) * 2.2);
+
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: var(--pad);
+  background: #fdfbf4;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.6) inset,
+    0 10px 24px -8px rgba(20, 15, 5, 0.45);
+
+  /* --- perforated / die-cut edge, pure CSS ------------------------- */
+  mask-image:
+    radial-gradient(
+      circle var(--perf-size) at var(--perf-gap) 0,
+      #0000 calc(var(--perf-size) - 0.4px),
+      #000 calc(var(--perf-size) + 0.4px)
+    ),
+    radial-gradient(
+      circle var(--perf-size) at var(--perf-gap) 100%,
+      #0000 calc(var(--perf-size) - 0.4px),
+      #000 calc(var(--perf-size) + 0.4px)
+    ),
+    radial-gradient(
+      circle var(--perf-size) at 0 var(--perf-gap),
+      #0000 calc(var(--perf-size) - 0.4px),
+      #000 calc(var(--perf-size) + 0.4px)
+    ),
+    radial-gradient(
+      circle var(--perf-size) at 100% var(--perf-gap),
+      #0000 calc(var(--perf-size) - 0.4px),
+      #000 calc(var(--perf-size) + 0.4px)
+    );
+  mask-size:
+    var(--perf-gap) 100%,
+    var(--perf-gap) 100%,
+    100% var(--perf-gap),
+    100% var(--perf-gap);
+  mask-position: top left, bottom left, top left, top left;
+  mask-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
+  mask-composite: intersect, intersect, intersect, intersect;
+
+  -webkit-mask-image:
+    radial-gradient(
+      circle var(--perf-size) at var(--perf-gap) 0,
+      #0000 calc(var(--perf-size) - 0.4px),
+      #000 calc(var(--perf-size) + 0.4px)
+    ),
+    radial-gradient(
+      circle var(--perf-size) at var(--perf-gap) 100%,
+      #0000 calc(var(--perf-size) - 0.4px),
+      #000 calc(var(--perf-size) + 0.4px)
+    ),
+    radial-gradient(
+      circle var(--perf-size) at 0 var(--perf-gap),
+      #0000 calc(var(--perf-size) - 0.4px),
+      #000 calc(var(--perf-size) + 0.4px)
+    ),
+    radial-gradient(
+      circle var(--perf-size) at 100% var(--perf-gap),
+      #0000 calc(var(--perf-size) - 0.4px),
+      #000 calc(var(--perf-size) + 0.4px)
+    );
+  -webkit-mask-size:
+    var(--perf-gap) 100%,
+    var(--perf-gap) 100%,
+    100% var(--perf-gap),
+    100% var(--perf-gap);
+  -webkit-mask-position: top left, bottom left, top left, top left;
+  -webkit-mask-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
+  -webkit-mask-composite: source-in, source-in, source-in, source-in;
+}
+
+.stampArt {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+}
+
+.stampArt svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* subtle paper tones, used per-stamp so the album doesn't feel uniform */
+.cream {
+  background: #fdfbf4;
+}
+.ivory {
+  background: #fbf7ec;
+}

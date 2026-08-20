@@ -1,0 +1,58 @@
+.back {
+  width: 100%;
+  height: 100%;
+  background: #f6f1e4;
+  background-image: linear-gradient(
+      90deg,
+      transparent 0,
+      transparent 10px,
+      rgba(0, 0, 0, 0.04) 10px,
+      rgba(0, 0, 0, 0.04) 11px,
+      transparent 11px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      transparent 0,
+      transparent 23px,
+      rgba(120, 100, 60, 0.14) 23px,
+      rgba(120, 100, 60, 0.14) 24px
+    );
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 22px 18px;
+  box-sizing: border-box;
+  color: #2c2418;
+}
+
+.eyebrow {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #8a7a55;
+  margin: 0 0 4px;
+}
+
+.title {
+  font-size: 18px;
+  line-height: 1.15;
+  margin: 0 0 10px;
+  font-weight: 800;
+}
+
+.meta {
+  font-size: 11px;
+  color: #6b5c3e;
+  margin: 0 0 12px;
+}
+
+.desc {
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: #443a28;
+}
+
+.postmark {
+  align-self: flex-end;
+  opacity: 0.55;
+}

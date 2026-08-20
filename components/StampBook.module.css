@@ -1,0 +1,65 @@
+.scene {
+  width: 100%;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  padding: 40px 20px;
+  background: radial-gradient(circle at 50% 20%, #3a3226 0%, #171310 70%);
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.heading {
+  text-align: center;
+  color: #f2ead9;
+}
+
+.heading h1 {
+  margin: 0;
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  letter-spacing: 0.02em;
+}
+
+.heading p {
+  margin: 6px 0 0;
+  font-size: 13px;
+  color: #b8ab8f;
+}
+
+.book {
+  position: relative;
+  width: 220px;
+  height: 300px;
+  perspective: 1400px;
+}
+
+.item {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transform-origin: left center;
+  cursor: pointer;
+}
+
+.face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 3px;
+  overflow: hidden;
+  box-shadow: 3px 6px 14px rgba(0, 0, 0, 0.45);
+}
+
+.faceBack {
+  transform: rotateY(180deg);
+}
+
+.hint {
+  color: #8d8168;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+}
